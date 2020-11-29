@@ -22,7 +22,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
 	
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -32,14 +31,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginPage("/login")
 			.defaultSuccessUrl("/home", true)
 			.permitAll()
-			).logout(logout -> logout.logoutUrl("/logout"));
+			)
+		.logout(logout -> logout.logoutUrl("/logout"))
+		.csrf().disable();
 	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-		//so usar na primeira vez
+		//so usar na primeira vez para testar 
 		UserDetails user = User.builder()
 				.username(encoder.encode("joao"))
 				.password("joao")
