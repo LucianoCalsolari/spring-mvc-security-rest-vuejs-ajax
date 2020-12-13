@@ -15,30 +15,33 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Pedido {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nomeProduto;
 	private BigDecimal valorNegociado;
 	private LocalDate dataDaEntrega;
 	private String urlProduto;
 	private String urlImagem;
 	private String descricao;
-	
+
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private User user;
-	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="pedido", fetch=FetchType.LAZY)
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Oferta> ofertas;
-	
-	
-	
+
 	public List<Oferta> getOfertas() {
 		return ofertas;
 	}
@@ -94,11 +97,11 @@ public class Pedido {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 	public StatusPedido getStatus() {
 		return status;
 	}
-	
+
 	public void setStatus(StatusPedido status) {
 		this.status = status;
 	}
@@ -119,5 +122,4 @@ public class Pedido {
 		this.user = user;
 	}
 
-	
 }
